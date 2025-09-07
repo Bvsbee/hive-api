@@ -27,24 +27,28 @@ export class UserService {
       }
     }
 
-    return 'This action adds a new user';
+    return this.prisma.user.create({ data: createUserDto });
   }
 
+  async remove(guid: string) {
+    return `This action removes a #${guid} user`;
+  }
   async findAll() {
     return `This action returns all user`;
   }
 
-  async findOne(guid: string): Promise<User | null> {
-    return this.prisma.user.findUnique({
+  async findByUsername(username: string): Promise<User | null> {
+    return await this.prisma.user.findFirst({
+      where: { username },
+    });
+  }
+  async findByGuid(guid: string): Promise<User | null> {
+    return await this.prisma.user.findUnique({
       where: { guid },
     });
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
-  }
-
-  async remove(id: number) {
-    return `This action removes a #${id} user`;
   }
 }

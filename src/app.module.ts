@@ -5,8 +5,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { UserService } from './User/user.service';
 import { UserModule } from './User/user.module';
 import { AuthModule } from './auth/auth.module';
-import { AuthController } from './nest/auth/auth.controller';
-
+import { AuthController } from './auth/auth.controller';
 @Module({
   imports: [UserModule, AuthModule],
   controllers: [AppController, AuthController],
