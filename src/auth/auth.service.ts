@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
 import { UserService } from 'src/User/user.service';
 import { JwtService } from '@nestjs/jwt';
+import { SignInDto } from './dto/sign-in.dto';
 
 @Injectable()
 export class AuthService {
@@ -10,16 +11,15 @@ export class AuthService {
     private prisma: PrismaService,
     private jwtService: JwtService,
   ) {}
-  async signIn(
-    username: string,
-    pass: string,
-  ): Promise<{ access_token: string }> {
-    const user = await this.userService.findByUsername(username);
+  async signIn(signInDto: SignInDto): Promise<{ access_token: string }> {
+    const user = await this.userService.findByUsername(signInDto.username);
     if (!user) {
       throw new Error('User not found');
     }
 
-    if (user?.password !== pass) {
+    console.log('Passwords:', signInDto);
+
+    if (user?.password !== signInDto.password) {
       throw new Error('Invalid password');
     }
 

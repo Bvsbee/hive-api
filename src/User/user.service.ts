@@ -1,14 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from 'generated/prisma';
+import { User } from '@prisma/client';
 import { PrismaService } from 'prisma/prisma.service';
 
 @Injectable()
 export class UserService {
   constructor(private prisma: PrismaService) {}
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto): Promise<User> {
+    const { email, username, password } = createUserDto;
+
+    if (!email || !username || !password) {
+      throw new Error('Missing required fields');
+    }
     const existingUser = await this.prisma.user.findFirst({
       where: {
         OR: [
@@ -27,7 +32,13 @@ export class UserService {
       }
     }
 
-    return this.prisma.user.create({ data: createUserDto });
+    return await this.prisma.user.create({
+      data: {
+        email: createUserDto.email,
+        username: createUserDto.username,
+        password: createUserDto.password,
+      },
+    });
   }
 
   async remove(guid: string) {
