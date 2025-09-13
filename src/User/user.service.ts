@@ -3,15 +3,18 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from '@prisma/client';
 import { PrismaService } from 'prisma/prisma.service';
+import * as bcrpyt from 'bcrypt';
 
 @Injectable()
 export class UserService {
   constructor(private prisma: PrismaService) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const { email, username, password } = createUserDto;
-
-    if (!email || !username || !password) {
+    if (
+      !createUserDto.email ||
+      !createUserDto.username ||
+      !createUserDto.password
+    ) {
       throw new Error('Missing required fields');
     }
     const existingUser = await this.prisma.user.findFirst({
@@ -32,13 +35,22 @@ export class UserService {
       }
     }
 
-    return await this.prisma.user.create({
+    const saltOrRounds = 10;
+    const hashedPassword = await bcrpyt.hash(
+      createUserDto.password,
+      saltOrRounds,
+    );
+
+    const user = await this.prisma.user.create({
       data: {
         email: createUserDto.email,
         username: createUserDto.username,
-        password: createUserDto.password,
+        password: hashedPassword,
       },
     });
+
+    const { password, ...result } = user;
+    return result as User;
   }
 
   async remove(guid: string) {

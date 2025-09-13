@@ -1,17 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
 import { UserService } from 'src/User/user.service';
-import { JwtService } from '@nestjs/jwt';
 import { SignInDto } from './dto/sign-in.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UserService,
     private prisma: PrismaService,
-    private jwtService: JwtService,
   ) {}
-  async signIn(signInDto: SignInDto): Promise<{ access_token: string }> {
+  async signIn(signInDto: SignInDto): Promise<any> {
     const user = await this.userService.findByUsername(signInDto.username);
     if (!user) {
       throw new Error('User not found');
@@ -27,6 +26,17 @@ export class AuthService {
 
     // TODO: Generate a JWT and return it here
     // instead of the user object
-    return { access_token: await this.jwtService.signAsync(payload) };
+    return;
+  }
+
+  async validateUser(signInDto: SignInDto): Promise<any> {
+    const { username, password } = signInDto;
+    const user = await this.userService.findByUsername(username);
+
+    if (user && (await bcrypt.compare(password, user.password))) {
+      const { password, ...result } = user;
+      return result;
+    }
+    return null;
   }
 }
