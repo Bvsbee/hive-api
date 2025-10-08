@@ -13,7 +13,9 @@ export class UserService {
     if (
       !createUserDto.email ||
       !createUserDto.username ||
-      !createUserDto.password
+      !createUserDto.password ||
+      !createUserDto.firstName ||
+      !createUserDto.lastName
     ) {
       throw new Error('Missing required fields');
     }
@@ -45,6 +47,8 @@ export class UserService {
       data: {
         email: createUserDto.email,
         username: createUserDto.username,
+        firstName: createUserDto.firstName,
+        lastName: createUserDto.lastName,
         password: hashedPassword,
       },
     });

@@ -3,6 +3,7 @@ import { PrismaService } from 'prisma/prisma.service';
 import { UserService } from 'src/User/user.service';
 import { SignInDto } from './dto/sign-in.dto';
 import * as bcrypt from 'bcrypt';
+import { User } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
@@ -29,13 +30,12 @@ export class AuthService {
     return;
   }
 
-  async validateUser(signInDto: SignInDto): Promise<any> {
-    const { username, password } = signInDto;
+  async validateUser(username: string, password: string): Promise<User | null> {
     const user = await this.userService.findByUsername(username);
 
     if (user && (await bcrypt.compare(password, user.password))) {
       const { password, ...result } = user;
-      return result;
+      return result as User;
     }
     return null;
   }
