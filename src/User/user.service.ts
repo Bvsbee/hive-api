@@ -64,9 +64,9 @@ export class UserService {
     return `This action returns all user`;
   }
 
-  async findByUsername(username: string): Promise<User | null> {
+  async findByEmail(email: string): Promise<User | null> {
     return await this.prisma.user.findFirst({
-      where: { username },
+      where: { email },
     });
   }
   async findByGuid(guid: string): Promise<User | null> {

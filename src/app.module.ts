@@ -7,8 +7,17 @@ import { UserModule } from './User/user.module';
 import { AuthModule } from './auth/auth.module';
 import { AuthController } from './auth/auth.controller';
 import { PassportModule } from '@nestjs/passport';
+import { ConfigModule } from '@nestjs/config';
 @Module({
-  imports: [UserModule, AuthModule, PassportModule],
+  imports: [
+    UserModule,
+    AuthModule,
+    PassportModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
+  ],
   controllers: [AppController, AuthController],
   providers: [AppService, PrismaService, UserService],
 })
