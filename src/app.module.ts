@@ -8,17 +8,20 @@ import { AuthModule } from './auth/auth.module';
 import { AuthController } from './auth/auth.controller';
 import { PassportModule } from '@nestjs/passport';
 import { ConfigModule } from '@nestjs/config';
+import { TmdbModule } from './Tmdb/tmbd.module';
+import { TmdbCotnroller } from './Tmdb/tmdb.controller';
 @Module({
   imports: [
     UserModule,
     AuthModule,
     PassportModule,
+    TmdbModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
     }),
   ],
-  controllers: [AppController, AuthController],
+  controllers: [AppController, AuthController, TmdbCotnroller],
   providers: [AppService, PrismaService, UserService],
 })
 export class AppModule {}

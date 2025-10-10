@@ -31,7 +31,7 @@ export class AuthController {
     };
   }
   @UseGuards(LocalAuthGuard)
-  @Post('/logout')
+  @Post('logout')
   async logout(@Request() req) {
     return req.logout();
   }
