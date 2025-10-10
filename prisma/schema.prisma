@@ -21,4 +21,4 @@ model User {
   lastName String
   username String
   dateCreated DateTime @default(now())
-}`
+}
