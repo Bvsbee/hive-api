@@ -10,6 +10,7 @@ import { PassportModule } from '@nestjs/passport';
 import { ConfigModule } from '@nestjs/config';
 import { TmdbModule } from './Tmdb/tmbd.module';
 import { TmdbCotnroller } from './Tmdb/tmdb.controller';
+import { AniListModule } from './ani-list/ani-list.module';
 @Module({
   imports: [
     UserModule,
@@ -20,6 +21,7 @@ import { TmdbCotnroller } from './Tmdb/tmdb.controller';
       isGlobal: true,
       envFilePath: '.env',
     }),
+    AniListModule,
   ],
   controllers: [AppController, AuthController, TmdbCotnroller],
   providers: [AppService, PrismaService, UserService],
