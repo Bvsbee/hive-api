@@ -1,7 +1,8 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { firstValueFrom } from 'rxjs';
+
+import { firstValueFrom, retry } from 'rxjs';
 
 @Injectable()
 export class TmdbService {
@@ -25,6 +26,19 @@ export class TmdbService {
 
     return allMovies;
   }
+
+  async searchMovies(movie: string) {
+    const foundMovie = await this.fetchFromTmdb(
+      `/search/movie?query=${movie}`,
+      {
+        params: { page: 1 },
+      },
+    );
+
+    return foundMovies;
+  }
+
+  async searchTvShows(tvShow: string) {}
 
   private async fetchFromTmdb(
     endpoint: string,

@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { TmdbService } from './tmdb.service';
 
 @Controller('tmdb')
@@ -7,11 +7,21 @@ export class TmdbCotnroller {
 
   @Get('discover/tv')
   async discoverTvShows() {
-    return this.tmdbService.discoverTvShows();
+    return await this.tmdbService.discoverTvShows();
   }
 
   @Get('discover/movie')
   async discoverMovies() {
-    return this.tmdbService.discoverMovies();
+    return await this.tmdbService.discoverMovies();
+  }
+
+  @Get('search/movie')
+  async searchMovies(@Param() movie: string) {
+    return await this.tmdbService.searchMovies(movie);
+  }
+
+  @Get('search/tv/:tvShow')
+  async searchTvShows(@Param() tvShow: string) {
+    return await this.tmdbService.searchTvShows(tvShow);
   }
 }
