@@ -3,6 +3,8 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
 import { firstValueFrom, retry } from 'rxjs';
+import { TvResult } from './interfaces/TvResult';
+import { MovieResult } from './interfaces/MoiveResult';
 
 @Injectable()
 export class TmdbService {
@@ -12,33 +14,79 @@ export class TmdbService {
   ) {}
 
   async discoverTvShows() {
-    const allTvShows = await this.fetchFromTmdb('/discover/tv', {
+    const results = await this.fetchFromTmdb('/discover/tv', {
       params: { page: 1 },
     });
 
-    return allTvShows;
+    const showsToReturn: TvResult[] = results.map((show: any) => ({
+      id: show.id,
+      name: show.name,
+      overview: show.overview,
+      firstAirDate: show.first_air_date,
+      posterPath: show.poster_path,
+      backdropPath: show.backdrop_path,
+      rating: show.vote_average,
+      video: show.video,
+    }));
+
+    return showsToReturn;
   }
 
+  async searchTvShows(query: string) {
+    const results = await this.fetchFromTmdb(`search/tv`, {
+      params: { query, page: 1 },
+    });
+
+    const showsToReturn: TvResult[] = results.map((show: any) => ({
+      id: show.id,
+      name: show.name,
+      overview: show.overview,
+      firstAirDate: show.first_air_date,
+      posterPath: show.poster_path,
+      backdropPath: show.backdrop_path,
+      rating: show.vote_average,
+      video: show.video,
+    }));
+
+    return showsToReturn;
+  }
   async discoverMovies() {
-    const allMovies = await this.fetchFromTmdb('/discover/movie', {
+    const results = await this.fetchFromTmdb('/discover/movie', {
       params: { page: 1 },
     });
 
-    return allMovies;
+    const moviesToReturn: MovieResult[] = results.map((movie: any) => ({
+      id: movie.id,
+      title: movie.title,
+      overview: movie.overview,
+      releaseDate: movie.release_date,
+      posterPath: movie.poster_path,
+      backdropPath: movie.backdrop_path,
+      rating: movie.vote_average,
+      video: movie.video,
+    }));
+
+    return moviesToReturn;
   }
 
-  async searchMovies(movie: string) {
-    const foundMovie = await this.fetchFromTmdb(
-      `/search/movie?query=${movie}`,
-      {
-        params: { page: 1 },
-      },
-    );
+  async searchMovies(query: string) {
+    const results = await this.fetchFromTmdb(`search/movie`, {
+      params: { query, page: 1 },
+    });
 
-    return foundMovies;
+    const moviesToReturn: MovieResult[] = results.map((movie: any) => ({
+      id: movie.id,
+      title: movie.title,
+      overview: movie.overview,
+      releaseDate: movie.release_date,
+      posterPath: movie.poster_path,
+      backdropPath: movie.backdrop_path,
+      rating: movie.vote_average,
+      video: movie.video,
+    }));
+
+    return moviesToReturn;
   }
-
-  async searchTvShows(tvShow: string) {}
 
   private async fetchFromTmdb(
     endpoint: string,
@@ -55,6 +103,8 @@ export class TmdbService {
         params: options.params,
       }),
     );
+
+    console.log({ data });
 
     return data.results;
   }

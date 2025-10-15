@@ -1,0 +1,11 @@
+export interface TvResult {
+  id: number;
+  posterPath: string;
+  backDropPath;
+  title: string;
+  genre: number[];
+  overview: string;
+  firstAirDate: string;
+  rating: number;
+  video: string;
+}
