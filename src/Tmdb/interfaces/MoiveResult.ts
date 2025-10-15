@@ -7,4 +7,5 @@ export interface MovieResult {
   releaseDate: string;
   rating: number;
   video: string;
+  mediaType: string;
 }

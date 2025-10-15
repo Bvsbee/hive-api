@@ -32,6 +32,42 @@ export class TmdbService {
     return showsToReturn;
   }
 
+  async search(type: 'movie' | 'tv', query: string) {
+    const results = await this.fetchFromTmdb(`search/${type}`, {
+      params: { query, page: 1 },
+    });
+
+    if (type == 'movie') {
+      const showsToReturn: TvResult[] = results.map((show: any) => ({
+        id: show.id,
+        name: show.name,
+        overview: show.overview,
+        firstAirDate: show.first_air_date,
+        posterPath: show.poster_path,
+        backdropPath: show.backdrop_path,
+        rating: show.vote_average,
+        video: show.video,
+        mediaType: type,
+      }));
+
+      return showsToReturn;
+    } else {
+      const moviesToReturn: MovieResult[] = results.map((movie: any) => ({
+        id: movie.id,
+        title: movie.title,
+        overview: movie.overview,
+        releaseDate: movie.release_date,
+        posterPath: movie.poster_path,
+        backdropPath: movie.backdrop_path,
+        rating: movie.vote_average,
+        video: movie.video,
+        mediaType: type,
+      }));
+
+      return moviesToReturn;
+    }
+  }
+
   async searchTvShows(query: string) {
     const results = await this.fetchFromTmdb(`search/tv`, {
       params: { query, page: 1 },
@@ -104,8 +140,6 @@ export class TmdbService {
       }),
     );
 
-    console.log({ data });
-
-    return data.results;
+    return await data.results;
   }
 }

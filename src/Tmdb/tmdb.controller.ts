@@ -1,5 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { TmdbService } from './tmdb.service';
+import { query } from 'express';
 
 @Controller('tmdb')
 export class TmdbCotnroller {
@@ -15,13 +16,11 @@ export class TmdbCotnroller {
     return await this.tmdbService.discoverMovies();
   }
 
-  @Get('search/movie')
-  async searchMovies(@Param() movie: string) {
-    return await this.tmdbService.searchMovies(movie);
-  }
-
-  @Get('search/tv/:tvShow')
-  async searchTvShows(@Param() tvShow: string) {
-    return await this.tmdbService.searchTvShows(tvShow);
+  @Get('search/:type/:query')
+  async searchMedia(
+    @Param('type') type: 'movie' | 'tv',
+    @Param('query') query: string,
+  ) {
+    return await this.tmdbService.search(type, query);
   }
 }

@@ -8,4 +8,5 @@ export interface TvResult {
   firstAirDate: string;
   rating: number;
   video: string;
+  mediaType: string;
 }
