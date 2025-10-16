@@ -11,6 +11,8 @@ import { ConfigModule } from '@nestjs/config';
 import { TmdbModule } from './Tmdb/tmbd.module';
 import { TmdbCotnroller } from './Tmdb/tmdb.controller';
 import { AniListModule } from './ani-list/ani-list.module';
+import { AniListController } from './ani-list/ani-list.controller';
+import { AniListService } from './ani-list/ani-list.service';
 @Module({
   imports: [
     UserModule,
@@ -23,7 +25,12 @@ import { AniListModule } from './ani-list/ani-list.module';
     }),
     AniListModule,
   ],
-  controllers: [AppController, AuthController, TmdbCotnroller],
+  controllers: [
+    AppController,
+    AuthController,
+    TmdbCotnroller,
+    AniListController,
+  ],
   providers: [AppService, PrismaService, UserService],
 })
 export class AppModule {}
