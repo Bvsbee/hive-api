@@ -1,7 +1,7 @@
 export interface TvResult {
   id: number;
   posterPath: string;
-  backDropPath;
+  backDropPath: string;
   title: string;
   genre: number[];
   overview: string;

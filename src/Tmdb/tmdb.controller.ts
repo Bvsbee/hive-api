@@ -1,6 +1,5 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { TmdbService } from './tmdb.service';
-import { query } from 'express';
 
 @Controller('tmdb')
 export class TmdbCotnroller {

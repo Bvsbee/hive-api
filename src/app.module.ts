@@ -12,7 +12,8 @@ import { TmdbModule } from './Tmdb/tmbd.module';
 import { TmdbCotnroller } from './Tmdb/tmdb.controller';
 import { AniListModule } from './ani-list/ani-list.module';
 import { AniListController } from './ani-list/ani-list.controller';
-import { AniListService } from './ani-list/ani-list.service';
+import { BookModule } from './book/book.module';
+import { BookController } from './book/book.controller';
 @Module({
   imports: [
     UserModule,
@@ -24,12 +25,14 @@ import { AniListService } from './ani-list/ani-list.service';
       envFilePath: '.env',
     }),
     AniListModule,
+    BookModule,
   ],
   controllers: [
     AppController,
     AuthController,
     TmdbCotnroller,
     AniListController,
+    BookController,
   ],
   providers: [AppService, PrismaService, UserService],
 })

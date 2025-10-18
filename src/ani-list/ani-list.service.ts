@@ -52,9 +52,9 @@ export class AniListService {
   }
 
   async fetchPopularAnime(): Promise<any> {
-    const query = `query Query($type: MediaType, $sort: [MediaSort]) 
+    const query = `query Query($type: MediaType, $sort: [MediaSort],$page: 1, $perPage: 10) 
     {
-      Page 
+      Page(page: $page, perPage: $perPage)
       {
         media(type: $type, sort: $sort) 
         {

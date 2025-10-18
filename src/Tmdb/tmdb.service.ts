@@ -1,8 +1,7 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-
-import { firstValueFrom, retry } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { TvResult } from './interfaces/TvResult';
 import { MovieResult } from './interfaces/MoiveResult';
 

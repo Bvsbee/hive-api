@@ -1,5 +1,6 @@
-import { Controller, Get, Param, Post } from '@nestjs/common';
+import { Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { AniListService } from './ani-list.service';
+import { SearchAnimeDto } from './SearchAnime.dto';
 
 @Controller('ani-list')
 export class AniListController {
@@ -10,12 +11,9 @@ export class AniListController {
     return await this.aniListService.fetchPopularAnime();
   }
 
-  @Get('anime/:anime/:page/:perPage')
-  async searchAnime(
-    @Param() anime: string,
-    @Param() page: number,
-    @Param() perPage: number,
-  ) {
+  @Get('anime')
+  async searchAnime(@Query() searchAnimeDto: SearchAnimeDto) {
+    const { anime, page, perPage } = searchAnimeDto;
     return await this.aniListService.discoverAnime(anime, page, perPage);
   }
 }
