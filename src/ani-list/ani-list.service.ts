@@ -52,7 +52,10 @@ export class AniListService {
   }
 
   async fetchPopularAnime(): Promise<any> {
-    const query = `query Query($type: MediaType, $sort: [MediaSort],$page: 1, $perPage: 10) 
+    const page = 1;
+    const perPage = 10;
+
+    const query = `query Query($type: MediaType, $sort: [MediaSort],$page: Int!, $perPage: Int!) 
     {
       Page(page: $page, perPage: $perPage)
       {
@@ -85,6 +88,8 @@ export class AniListService {
     const variables = {
       type: 'ANIME',
       sort: 'POPULARITY_DESC',
+      page,
+      perPage,
     };
 
     const results = this.fetchAniListData(query, variables).then((data) => {
