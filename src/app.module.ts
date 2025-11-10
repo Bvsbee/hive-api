@@ -14,6 +14,7 @@ import { AniListModule } from './ani-list/ani-list.module';
 import { AniListController } from './ani-list/ani-list.controller';
 import { BookModule } from './book/book.module';
 import { BookController } from './book/book.controller';
+import { ListModule } from './list/list.module';
 @Module({
   imports: [
     UserModule,
@@ -26,6 +27,7 @@ import { BookController } from './book/book.controller';
     }),
     AniListModule,
     BookModule,
+    ListModule,
   ],
   controllers: [
     AppController,
