@@ -25,7 +25,7 @@ export class ListService {
       data: {
         userGuid: createListDto.userGuid,
         name: createListDto.name,
-        items: {},
+        icon: createListDto.icon
       },
     });
 

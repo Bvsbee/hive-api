@@ -31,6 +31,7 @@ model List {
   userGuid String
   name String @unique
   items ListItem[]
+  icon String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }

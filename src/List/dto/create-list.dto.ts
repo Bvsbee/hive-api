@@ -13,4 +13,7 @@ export class CreateListDto {
   @IsNotEmpty()
   @IsOptional()
   items: ListItem[];
+
+  @IsNotEmpty()
+  icon: string;
 }

@@ -4,8 +4,4 @@ export class CreateListItemDto {
   @IsNotEmpty()
   @IsString()
   listGuid: string;
-
-  @IsNotEmpty()
-  @IsString()
-  mediaGuid: string;
 }
