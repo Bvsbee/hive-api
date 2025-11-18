@@ -29,11 +29,14 @@ model List {
   guid String @id @default(uuid()) 
   user User @relation(fields: [userGuid], references: [guid])
   userGuid String
-  name String @unique
+  name String
   items ListItem[]
   icon String
+  allowedMediaType MediaType[]
   createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  updatedAt DateTime @default(now()) @updatedAt  
+  
+ @@unique([userGuid,name])
 }
 
 model ListItem {
@@ -42,11 +45,12 @@ model ListItem {
    listGuid String
    media Media @relation(fields: [mediaGuid], references: [guid])
    mediaGuid String 
+
+   @@unique([listGuid, mediaGuid])
 }
 
 model Media {
   guid String @id @default(uuid())
-  type MediaType
   title String
   synopsis String
   posterUrl String
@@ -55,6 +59,7 @@ model Media {
   tvDetails TvDetails? 
   bookDetails BookDetails?
   listItems ListItem[]
+  mediaType MediaType
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }
