@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { ListItemService } from './list-item.service';
 import { CreateListItemDto } from './dto/create-list-item.dto';
 import { UpdateListItemDto } from './dto/update-list-item.dto';
@@ -9,7 +19,14 @@ export class ListItemController {
 
   @Post()
   create(@Body() createListItemDto: CreateListItemDto) {
-    return this.listItemService.create(createListItemDto);
+    try {
+      return this.listItemService.create(createListItemDto);
+    } catch (error) {
+      throw new HttpException(
+        `Failed to add item to list: ${error.message}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
   @Get()
@@ -23,7 +40,10 @@ export class ListItemController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateListItemDto: UpdateListItemDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateListItemDto: UpdateListItemDto,
+  ) {
     return this.listItemService.update(+id, updateListItemDto);
   }
 
