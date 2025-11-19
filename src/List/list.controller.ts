@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { ListService } from './list.service';
 import { CreateListDto } from './dto/create-list.dto';
 import { UpdateListDto } from './dto/update-list.dto';
@@ -9,7 +19,14 @@ export class ListController {
 
   @Post()
   create(@Body() createListDto: CreateListDto) {
-    return this.listService.create(createListDto);
+    try {
+      return this.listService.create(createListDto);
+    } catch (error) {
+      throw new HttpException(
+        `Failed to create new list: ${error.message}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
   @Get()

@@ -8,7 +8,7 @@ import { List } from '@prisma/client';
 export class ListService {
   constructor(private prisma: PrismaService) {}
 
-  async create(createListDto: CreateListDto) {
+  async create(createListDto: CreateListDto): Promise<List> {
     if (!createListDto.userGuid || !createListDto.name) {
       throw new Error('Missing required fields.');
     }
@@ -25,7 +25,7 @@ export class ListService {
       data: {
         userGuid: createListDto.userGuid,
         name: createListDto.name,
-        icon: createListDto.icon
+        icon: createListDto.icon,
       },
     });
 

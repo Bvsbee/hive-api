@@ -1,4 +1,4 @@
-import { ListItem } from '@prisma/client';
+import { ListItem, MediaType } from '@prisma/client';
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateListDto {
@@ -11,9 +11,8 @@ export class CreateListDto {
   name: string;
 
   @IsNotEmpty()
-  @IsOptional()
-  items: ListItem[];
+  icon: string;
 
   @IsNotEmpty()
-  icon: string;
+  mediaTypes: MediaType[];
 }
