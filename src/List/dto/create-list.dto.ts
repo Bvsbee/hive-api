@@ -14,5 +14,5 @@ export class CreateListDto {
   icon: string;
 
   @IsNotEmpty()
-  mediaTypes: MediaType[];
+  allowedMediaTypes: MediaType[];
 }

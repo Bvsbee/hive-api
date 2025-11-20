@@ -1,20 +1,31 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateListDto } from './dto/create-list.dto';
 import { UpdateListDto } from './dto/update-list.dto';
 import { PrismaService } from 'prisma/prisma.service';
 import { List } from '@prisma/client';
+import { UserService } from 'src/User/user.service';
 
 @Injectable()
 export class ListService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private userService: UserService,
+  ) {}
 
   async create(createListDto: CreateListDto): Promise<List> {
-    if (!createListDto.userGuid || !createListDto.name) {
+    if (
+      !createListDto.userGuid ||
+      !createListDto.name ||
+      !createListDto.allowedMediaTypes
+    ) {
       throw new Error('Missing required fields.');
     }
 
     const existingList = await this.prisma.list.findFirst({
-      where: { name: createListDto.name },
+      where: {
+        name: createListDto.name,
+        userGuid: createListDto.userGuid,
+      },
     });
 
     if (existingList) {
@@ -32,8 +43,20 @@ export class ListService {
     return list as List;
   }
 
-  findAll() {
-    return `This action returns all list`;
+  async fetchUserLists(userGuid: string): Promise<List[]> {
+    console.log(userGuid, 'listService');
+
+    const user = await this.userService.findByGuid(userGuid);
+
+    if (!user) {
+      throw new NotFoundException('User was not found');
+    }
+
+    const userLists = await this.prisma.list.findMany({
+      where: { userGuid: userGuid },
+    });
+
+    return userLists;
   }
 
   findOne(id: number) {

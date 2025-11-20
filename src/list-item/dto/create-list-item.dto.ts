@@ -1,10 +1,34 @@
-import { Media } from '@prisma/client';
-import { IsNotEmpty, IsString } from 'class-validator';
+import {
+  AnimeDetails,
+  BookDetails,
+  Media,
+  MediaType,
+  MovieDetails,
+  TvDetails,
+} from '@prisma/client';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateListItemDto {
   @IsNotEmpty()
   @IsString()
   listGuid: string;
 
-  media: Media;
+  @IsNotEmpty()
+  mediaType: MediaType;
+
+  @IsNotEmpty()
+  @IsString()
+  title: string;
+
+  @IsOptional()
+  bookDetails: BookDetails;
+
+  @IsOptional()
+  animeDetails: AnimeDetails;
+
+  @IsOptional()
+  tvDetails: TvDetails;
+
+  @IsOptional()
+  movieDetails: MovieDetails;
 }

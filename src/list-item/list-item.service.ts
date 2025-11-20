@@ -1,4 +1,4 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateListItemDto } from './dto/create-list-item.dto';
 import { UpdateListItemDto } from './dto/update-list-item.dto';
 import { PrismaService } from 'prisma/prisma.service';
@@ -8,21 +8,20 @@ export class ListItemService {
   constructor(private prisma: PrismaService) {}
 
   async create(createListItemDto: CreateListItemDto) {
-    const existing = await this.prisma.listItem.findFirst({
+    const existingList = await this.prisma.listItem.findFirst({
       where: { listGuid: createListItemDto.listGuid },
     });
 
-    if (existing) {
-      throw new ConflictException(
-        'An item for this list already exists.', // clear, API-friendly message
-      );
+    if (!existingList) {
+      throw new NotFoundException('This list does not exist.');
     }
 
-    // const media = await this.prisma.media.create({
-    //   data: {
+    const extractedMedia = createListItemDto.mediaType;
 
-    //   }
-    // })
+    // switch (createListItemDto.mediaType) {
+    //   case 'MOVIE':
+    //     const media = await
+    // }
 
     // const listItem = await this.prisma.listItem.create({
     //   data:{
@@ -32,6 +31,15 @@ export class ListItemService {
     //   }
     // })
   }
+
+  // async createMedia(title: string, mediaType): Promise<Partial<Media>> {
+  //        await this.prisma.media.create({
+  //           data: {
+  //             title: title,
+  //             mediaType: mediaType
+  //           }
+  //        })
+  // }
 
   findAll() {
     return `This action returns all listItem`;

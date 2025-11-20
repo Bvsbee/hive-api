@@ -29,9 +29,16 @@ export class ListController {
     }
   }
 
-  @Get()
-  findAll() {
-    return this.listService.findAll();
+  @Get('/:userGuid')
+  async fetchUserLists(@Param('userGuid') userGuid: string) {
+    try {
+      return await this.listService.fetchUserLists(userGuid);
+    } catch (error) {
+      throw new HttpException(
+        `Failed to fetch user Lists: ${error.message}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
   @Get(':id')

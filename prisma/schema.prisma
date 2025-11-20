@@ -52,8 +52,6 @@ model ListItem {
 model Media {
   guid String @id @default(uuid())
   title String
-  synopsis String
-  posterUrl String
   movieDetails MovieDetails?
   animeDetails AnimeDetails?
   tvDetails TvDetails? 
@@ -67,9 +65,12 @@ model Media {
 model MovieDetails {
   guid String @id @default(uuid())
   mediaGuid  String    @unique
-  runtime  Int?
-  director String?
-  tmdbId   String?
+  posterPath String
+  overview  String
+  releaseDate DateTime
+  rating    Float
+  genre     String[]
+  video     String
 
   media    Media  @relation(fields: [mediaGuid], references: [guid])
 }
@@ -77,9 +78,11 @@ model MovieDetails {
 model BookDetails {
   guid String @id @default(uuid())
   mediaGuid String    @unique
-  author   String?
-  isbn     String?
-  pages    Int?
+  title        String
+  author       String
+  description  String
+  publishedDate DateTime
+  bookImageUrl String
 
   media    Media  @relation(fields: [mediaGuid], references: [guid])
 }
@@ -87,8 +90,13 @@ model BookDetails {
 model TvDetails {
   guid String @id @default(uuid())
   mediaGuid    String    @unique
-  episodes   Int?
-  network    String?
+  postPath String
+  backDropPath String
+  overview String
+  firstAirDate DateTime
+  rating      Float
+  video       String
+  genre       String[]
 
   media      Media  @relation(fields: [mediaGuid], references: [guid])
 }
@@ -96,8 +104,16 @@ model TvDetails {
 model AnimeDetails {
   guid          String    @id @default(uuid())
   mediaGuid     String    @unique
-  studio        String?
-  episodeCount  Int?
+  description String 
+  averageScore Float?
+  episodes Int?
+  startDate DateTime?
+  genres String[]
+  titleRomaji String
+  titleEnglish String?
+  titleNative String?
+  coverImageUrl String
+  coverImageColor String?
 
   media         Media  @relation(fields: [mediaGuid], references: [guid])
 }
