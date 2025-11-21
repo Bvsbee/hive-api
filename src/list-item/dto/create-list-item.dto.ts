@@ -14,7 +14,7 @@ export class CreateListItemDto {
   listGuid: string;
 
   @IsNotEmpty()
-  mediaType: MediaType;
+  mediaType: Media;
 
   @IsNotEmpty()
   @IsString()
