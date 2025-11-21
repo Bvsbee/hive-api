@@ -9,8 +9,10 @@ export class ListItemService {
   constructor(private prisma: PrismaService) {}
 
   async create(listDto: CreateListItemDto): Promise<ListItem> {
-    const existingList = await this.prisma.listItem.findFirst({
-      where: { listGuid: listDto.listGuid },
+    console.log({ listDto });
+
+    const existingList = await this.prisma.list.findFirst({
+      where: { guid: listDto.listGuid },
     });
 
     if (!existingList) {

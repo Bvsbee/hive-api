@@ -44,8 +44,6 @@ export class ListService {
   }
 
   async fetchUserLists(userGuid: string): Promise<List[]> {
-    console.log(userGuid, 'listService');
-
     const user = await this.userService.findByGuid(userGuid);
 
     if (!user) {

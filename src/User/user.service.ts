@@ -72,7 +72,6 @@ export class UserService {
   }
 
   async findByGuid(guid: string): Promise<User | null> {
-    console.log(guid, 'userService');
     return await this.prisma.user.findUnique({
       where: { guid },
     });
