@@ -41,6 +41,18 @@ export class ListController {
     }
   }
 
+  @Get('/recentMedia/:userGuid')
+  async fetchRecentlyAddedMedia(@Param('userGuid') userGuid: string) {
+    try {
+      return await this.listService.fetchRecentlyAddedMedia(userGuid);
+    } catch (error) {
+      throw new HttpException(
+        `Failed to fetch recently Added Media: ${error.message}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.listService.findOne(+id);

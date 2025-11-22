@@ -44,8 +44,10 @@ model ListItem {
    list List @relation(fields: [listGuid], references: [guid])
    listGuid String
    media Media @relation(fields: [mediaGuid], references: [guid])
-   mediaGuid String 
-
+   mediaGuid String   
+   createdAt DateTime @default(now())
+   updatedAt DateTime @default(now()) @updatedAt
+   
    @@unique([listGuid, mediaGuid])
 }
 

@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateListDto } from './dto/create-list.dto';
 import { UpdateListDto } from './dto/update-list.dto';
 import { PrismaService } from 'prisma/prisma.service';
-import { List } from '@prisma/client';
+import { List, ListItem, Media } from '@prisma/client';
 import { UserService } from 'src/User/user.service';
 
 @Injectable()
@@ -55,6 +55,44 @@ export class ListService {
     });
 
     return userLists;
+  }
+
+  async fetchRecentlyAddedMedia(userGuid: string): Promise<ListItem[]> {
+    if (!userGuid) {
+      throw new NotFoundException('There was no userGuid Provided');
+    }
+
+    const recentMedia = await this.prisma.listItem.findMany({
+      where: {
+        list: {
+          userGuid: userGuid,
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 5,
+      include: {
+        media: {
+          include: {
+            movieDetails: true,
+            animeDetails: true,
+            tvDetails: true,
+            bookDetails: true,
+          },
+        },
+      },
+    });
+
+    // const mediaGuids = recentMedia.map((item) => item.mediaGuid);
+
+    // const media = await this.prisma.media.findMany({
+    //   where: {
+    //     guid: { in: mediaGuids },
+    //   },
+    // });
+
+    return recentMedia;
   }
 
   findOne(id: number) {
