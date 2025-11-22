@@ -29,6 +29,7 @@ export class ListItemController {
     }
   }
 
+  @Get('/')
   @Get()
   findAll() {
     return this.listItemService.findAll();

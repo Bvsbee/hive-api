@@ -84,14 +84,6 @@ export class ListService {
       },
     });
 
-    // const mediaGuids = recentMedia.map((item) => item.mediaGuid);
-
-    // const media = await this.prisma.media.findMany({
-    //   where: {
-    //     guid: { in: mediaGuids },
-    //   },
-    // });
-
     return recentMedia;
   }
 
