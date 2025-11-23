@@ -44,11 +44,9 @@ export class AniListService {
       perPage,
     };
 
-    const results = this.fetchAniListData(query, variables).then((data) => {
-      return data;
-    });
+    const result = await this.fetchAniListData(query, variables);
 
-    return results;
+    return result.data.Page.media; // ← FIXED
   }
 
   async fetchPopularAnime(): Promise<any> {
@@ -92,11 +90,9 @@ export class AniListService {
       perPage,
     };
 
-    const results = this.fetchAniListData(query, variables).then((data) => {
-      return data;
-    });
+    const result = await this.fetchAniListData(query, variables);
 
-    return results;
+    return result.data.Page.media; 
   }
 
   private async fetchAniListData<T extends Record<string, any>>(
