@@ -87,6 +87,49 @@ export class ListService {
     return recentMedia;
   }
 
+  async fetchItemsPerList(listGuid: string): Promise<Media[]> {
+    const list = await this.prisma.list.findFirst({
+      where: {
+        guid: listGuid,
+      },
+      include: {
+        items: true,
+      },
+    });
+
+    if (!list) {
+      throw new NotFoundException('List was not found');
+    }
+
+    const mediaToDisplay = await this.prisma.media.findMany({
+      where: {
+        listItems: {
+          some: {
+            listGuid: listGuid,
+          },
+        },
+      },
+      include: {
+        movieDetails: true,
+        animeDetails: true,
+        tvDetails: true,
+        bookDetails: true,
+        listItems: true,
+      },
+    });
+
+    const cleaned = mediaToDisplay.map((media) => {
+      const detail =
+        media.movieDetails ||
+        media.animeDetails ||
+        media.tvDetails ||
+        media.bookDetails ||
+        null;
+    });
+
+    return mediaToDisplay;
+  }
+
   findOne(id: number) {
     return `This action returns a #${id} list`;
   }
