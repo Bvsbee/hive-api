@@ -41,6 +41,17 @@ export class ListController {
     }
   }
 
+  @Get('/items/:listGuid')
+  async fetchItemsPerList(@Param('listGuid') listGuid: string) {
+    try {
+      return await this.listService.fetchItemsPerList(listGuid);
+    } catch (error) {
+      throw new HttpException(
+        `Failed to fetch items for List: ${error.message}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
   @Get('/recentMedia/:userGuid')
   async fetchRecentlyAddedMedia(@Param('userGuid') userGuid: string) {
     try {
