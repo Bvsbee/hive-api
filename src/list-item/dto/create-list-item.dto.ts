@@ -20,6 +20,15 @@ export class CreateListItemDto {
   @IsString()
   title: string;
 
+  @IsNotEmpty()
+  @IsString()
+  externalID: string;
+
+  @IsNotEmpty()
+  @IsString()
+  externalSource: string;
+
+  @IsNotEmpty()
   @IsOptional()
   bookDetails: BookDetails;
 
