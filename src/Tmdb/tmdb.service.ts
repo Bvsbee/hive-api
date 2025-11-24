@@ -90,6 +90,8 @@ export class TmdbService {
       params: { page: 1 },
     });
 
+    console.log(results);
+
     const moviesToReturn: MovieResult[] = results.map((movie: any) => ({
       id: movie.id,
       title: movie.title,

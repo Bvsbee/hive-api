@@ -43,6 +43,13 @@ export class ListItemService {
       mediaType: dto.mediaType,
     };
 
+    if (dto.mediaType.externalId) {
+      data.externalId = { create: dto.mediaType.externalId };
+    }
+
+    if (dto.mediaType.externalSource) {
+    }
+
     if (dto.movieDetails) {
       data.movieDetails = { create: dto.movieDetails };
     }
