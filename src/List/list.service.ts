@@ -52,6 +52,20 @@ export class ListService {
 
     const userLists = await this.prisma.list.findMany({
       where: { userGuid: userGuid },
+       include: { //include list items
+        items: {
+          include: {
+            media: {
+              include: {
+                tvDetails: true,
+                movieDetails: true,
+                animeDetails: true,
+                bookDetails: true,
+              },
+            },
+          },
+        },
+      },
     });
 
     return userLists;
