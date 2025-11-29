@@ -52,7 +52,8 @@ export class ListService {
 
     const userLists = await this.prisma.list.findMany({
       where: { userGuid: userGuid },
-       include: { //include list items
+      include: {
+        //include list items
         items: {
           include: {
             media: {
@@ -142,6 +143,18 @@ export class ListService {
     });
 
     return mediaToDisplay;
+  }
+
+  async removeItemFromList(
+    listGuid: string,
+    listItemGuid: string,
+  ): Promise<void> {
+    await this.prisma.listItem.deleteMany({
+      where: {
+        listGuid: listGuid,
+        guid: listItemGuid,
+      },
+    });
   }
 
   findOne(id: number) {

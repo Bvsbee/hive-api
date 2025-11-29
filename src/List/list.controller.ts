@@ -78,4 +78,19 @@ export class ListController {
   remove(@Param('id') id: string) {
     return this.listService.remove(+id);
   }
+
+  @Delete('/:listGuid/item/:listItemGuid')
+  async removeItemsFromList(
+    @Param('listGuid') listGuid: string,
+    @Param('listItemGuid') listItemGuid: string,
+  ) {
+    try {
+      return await this.listService.removeItemFromList(listGuid, listItemGuid);
+    } catch (error) {
+      throw new HttpException(
+        `Failed to remove items from List: ${error.message}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
 }
