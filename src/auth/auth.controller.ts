@@ -9,8 +9,6 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './local-auth.guard';
-import { AuthGuard } from '@nestjs/passport';
-import { SignInDto } from './dto/sign-in.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -31,7 +29,7 @@ export class AuthController {
     };
   }
   @UseGuards(LocalAuthGuard)
-  @Post('/logout')
+  @Post('logout')
   async logout(@Request() req) {
     return req.logout();
   }

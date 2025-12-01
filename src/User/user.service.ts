@@ -4,6 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from '@prisma/client';
 import { PrismaService } from 'prisma/prisma.service';
 import * as bcrpyt from 'bcrypt';
+import { console } from 'inspector';
 
 @Injectable()
 export class UserService {
@@ -69,6 +70,7 @@ export class UserService {
       where: { email },
     });
   }
+
   async findByGuid(guid: string): Promise<User | null> {
     return await this.prisma.user.findUnique({
       where: { guid },
